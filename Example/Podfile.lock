@@ -1,0 +1,40 @@
+PODS:
+  - CommonCryptoModule (1.0.2)
+  - ExtensibleEnumeratedName (1.0.1)
+  - WolfNumerics (1.0.1)
+  - WolfPipe (1.0.1)
+  - WolfSec (0.1.0):
+    - CommonCryptoModule
+    - WolfPipe
+    - WolfStrings
+  - WolfStrings (1.0.1):
+    - ExtensibleEnumeratedName
+    - WolfNumerics
+    - WolfPipe
+
+DEPENDENCIES:
+  - WolfSec (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - CommonCryptoModule
+    - ExtensibleEnumeratedName
+    - WolfNumerics
+    - WolfPipe
+    - WolfStrings
+
+EXTERNAL SOURCES:
+  WolfSec:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CommonCryptoModule: 63a68b57abed79655b3a01011419bf037a05b0a0
+  ExtensibleEnumeratedName: 70c35288c7e34eff64b4b1da8b0c6e993013738b
+  WolfNumerics: 47d911caaf5350fc838b638ca47a5427b676d275
+  WolfPipe: 7ddf803ae6bc9d42d34120bcce43d25940e3c791
+  WolfSec: dd475ad0e28e200a449348c3ca2575ee454d0be5
+  WolfStrings: 0691ee5c7aae7c040a6552ca97ddfa510ecccf88
+
+PODFILE CHECKSUM: 9cb6539a3864157c29728f144b64f0fc385489de
+
+COCOAPODS: 1.6.0.beta.1

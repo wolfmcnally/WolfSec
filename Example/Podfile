@@ -1,0 +1,11 @@
+use_frameworks!
+
+platform :ios, '12.0'
+
+target 'WolfSec_Example' do
+  pod 'WolfSec', :path => '../'
+
+  target 'WolfSec_Tests' do
+    inherit! :search_paths
+  end
+end
