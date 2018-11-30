@@ -1,15 +1,11 @@
 PODS:
-  - CommonCryptoModule (1.0.2)
-  - ExtensibleEnumeratedName (1.0.3)
-  - WolfNumerics (1.0.3)
-  - WolfPipe (1.0.4)
-  - WolfSec (1.0.1):
-    - CommonCryptoModule
-    - WolfPipe
-    - WolfStrings
-  - WolfStrings (1.0.3):
-    - ExtensibleEnumeratedName
+  - WolfFoundation (1.0.4):
     - WolfNumerics
+    - WolfPipe
+  - WolfNumerics (2.0.2)
+  - WolfPipe (1.0.7)
+  - WolfSec (1.0.2):
+    - WolfFoundation
     - WolfPipe
 
 DEPENDENCIES:
@@ -17,23 +13,19 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - CommonCryptoModule
-    - ExtensibleEnumeratedName
+    - WolfFoundation
     - WolfNumerics
     - WolfPipe
-    - WolfStrings
 
 EXTERNAL SOURCES:
   WolfSec:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CommonCryptoModule: 63a68b57abed79655b3a01011419bf037a05b0a0
-  ExtensibleEnumeratedName: c6caeb662f79105e7229a613f9043e8a7e15e642
-  WolfNumerics: aac52cdac131f4d54c9f09479156a5cf016ab62f
-  WolfPipe: 7ac686d6e3d4e960323c864c9e57a667cda7126c
-  WolfSec: da079e35e710e3e0749265d659a987389d4fc989
-  WolfStrings: df8b7406fe1c7fcd6efa1cddf5882647477d0677
+  WolfFoundation: 3badcb644013c8ab0329277474c9592ed8701d25
+  WolfNumerics: a63222a42b4c3835e1a1cb489a71abb890f0d910
+  WolfPipe: 1a2cbb23efb14833647a2adcc034468bf82a289e
+  WolfSec: 305c28ce6b0a471766cb4bc665598737c2b45c24
 
 PODFILE CHECKSUM: 9cb6539a3864157c29728f144b64f0fc385489de
 

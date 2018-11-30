@@ -26,8 +26,8 @@ import Foundation
 
 #if canImport(COpenSSL)
     import COpenSSL
-#elseif canImport(CommonCryptoModule)
-    import CommonCryptoModule
+#elseif canImport(CommonCrypto)
+    import CommonCrypto
 #endif
 
 import WolfPipe

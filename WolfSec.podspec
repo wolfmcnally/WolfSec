@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WolfSec'
-    s.version          = '1.0.2'
+    s.version          = '1.0.3'
     s.summary          = 'A library of conveniences for security-related functionality.'
 
     # s.description      = <<-DESC
@@ -22,7 +22,6 @@ Pod::Spec.new do |s|
 
     s.module_name = 'WolfSec'
 
-    s.dependency 'CommonCryptoModule'
     s.dependency 'WolfPipe'
     s.dependency 'WolfFoundation'
 end
