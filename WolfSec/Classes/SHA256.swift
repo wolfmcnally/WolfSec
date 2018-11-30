@@ -31,7 +31,7 @@ import Foundation
 #endif
 
 import WolfPipe
-import WolfStrings
+import WolfFoundation
 
 public struct SHA256 {
     private typealias `Self` = SHA256

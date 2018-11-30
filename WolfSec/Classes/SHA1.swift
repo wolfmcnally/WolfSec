@@ -31,7 +31,7 @@ import CommonCryptoModule
 #endif
 
 import WolfPipe
-import WolfStrings
+import WolfFoundation
 
 public struct SHA1 {
     private typealias `Self` = SHA1

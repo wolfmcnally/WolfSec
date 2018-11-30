@@ -31,7 +31,7 @@ import Foundation
 #endif
 
 import WolfPipe
-import WolfStrings
+import WolfFoundation
 
 public struct MD5 {
   private typealias `Self` = MD5

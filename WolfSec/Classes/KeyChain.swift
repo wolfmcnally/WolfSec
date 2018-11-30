@@ -24,7 +24,7 @@
 
 import Foundation
 import WolfPipe
-import WolfStrings
+import WolfFoundation
 
 public struct KeyChain {
     private typealias `Self` = KeyChain
