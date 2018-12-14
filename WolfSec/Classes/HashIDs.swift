@@ -295,11 +295,11 @@ public class Hashids_<T> : HashidsGenerator where T: UnsignedInteger {
 
 // MARK: Internal functions
 
-internal func contains<T: Collection>(_ a: T, _ e: T.Iterator.Element) -> Bool where T.Iterator.Element: Equatable {
+fileprivate func contains<T: Collection>(_ a: T, _ e: T.Iterator.Element) -> Bool where T.Iterator.Element: Equatable {
     return (a.index(of: e) != nil)
 }
 
-internal func transform<T: Collection>(_ a: T, _ b: T, _ cmpr: (inout [T.Iterator.Element], T, T, T.Iterator.Element ) -> Void ) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
+fileprivate func transform<T: Collection>(_ a: T, _ b: T, _ cmpr: (inout [T.Iterator.Element], T, T, T.Iterator.Element ) -> Void ) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
     typealias U = T.Iterator.Element
     var c = [U]()
     for i in a {
@@ -308,7 +308,7 @@ internal func transform<T: Collection>(_ a: T, _ b: T, _ cmpr: (inout [T.Iterato
     return c
 }
 
-internal func unique<T: Collection>(_ a: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
+fileprivate func unique<T: Collection>(_ a: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
     return transform(a, a) { (c, _, _, e) in
         var c = c
         if !contains(c, e) {
@@ -317,7 +317,7 @@ internal func unique<T: Collection>(_ a: T) -> [T.Iterator.Element] where T.Iter
     }
 }
 
-internal func intersection<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
+fileprivate func intersection<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
     return transform(a, b) { (c, _, b, e) in
         var c = c
         if contains(b, e) {
@@ -326,7 +326,7 @@ internal func intersection<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element
     }
 }
 
-internal func difference<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
+fileprivate func difference<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {
     return transform(a, b) { (c, _, b, e) in
         var c = c
         if !contains(b, e) {
@@ -335,11 +335,11 @@ internal func difference<T: Collection>(_ a: T, _ b: T) -> [T.Iterator.Element] 
     }
 }
 
-internal func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U) where T.Index == Int, T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index {
+fileprivate func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U) where T.Index == Int, T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index {
     return shuffle(&source, salt, 0..<salt.count)
 }
 
-internal func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U, _ saltRange: CountableRange<Int>) where T.Index == Int, T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index {
+fileprivate func shuffle<T: MutableCollection, U: Collection>(_ source: inout T, _ salt: U, _ saltRange: CountableRange<Int>) where T.Index == Int, T.Iterator.Element: UnsignedInteger, T.Iterator.Element == U.Iterator.Element, T.Index == U.Index {
     let sidx0 = saltRange.lowerBound, scnt = (saltRange.upperBound - saltRange.lowerBound)
     var sidx: Int = source.count - 1
     var v = 0

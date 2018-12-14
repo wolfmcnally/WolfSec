@@ -22,62 +22,37 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import Foundation
-
-#if canImport(COpenSSL)
-    import COpenSSL
-#elseif canImport(CommonCrypto)
-    import CommonCrypto
-#endif
-
 import WolfPipe
 import WolfFoundation
 
-public struct SHA256 {
-    private typealias `Self` = SHA256
+#if canImport(COpenSSL)
+import COpenSSL
+public let digestLengthSHA256 = Int(SHA256_DIGEST_LENGTH)
+#elseif canImport(CommonCrypto)
+import CommonCrypto
+public let digestLengthSHA256 = Int(CC_SHA256_DIGEST_LENGTH)
+#else
+#error("No crypto library available.")
+#endif
 
-    #if os(Linux)
-    private static let digestLength = Int(SHA256_DIGEST_LENGTH)
-    #else
-    private static let digestLength = Int(CC_SHA256_DIGEST_LENGTH)
-    #endif
+public enum SHA256Tag { }
+public typealias SHA256 = Tagged<SHA256Tag, Data>
 
-    public private(set) var digest = Data(repeating: 0, count: Self.digestLength)
+public func tagSHA256(_ data: Data) throws -> SHA256 {
+    guard data.count == digestLengthSHA256 else { throw WolfSecError("Invalid length for SHA256 hash") }
+    return SHA256(rawValue: data)
+}
 
-    public init(data: Data) {
-        digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
-            data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
-                #if os(Linux)
-                    _ = COpenSSL.SHA256(dataPtr, data.count, digestPtr)
-                #else
-                    CC_SHA256(dataPtr, CC_LONG(data.count), digestPtr)
-                #endif
-            }
+public func toSHA256(_ data: Data) -> SHA256 {
+    var digest = Data(repeating: 0, count: digestLengthSHA256)
+    digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
+        data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
+            #if canImport(COpenSSL)
+            _ = COpenSSL.SHA256(dataPtr, data.count, digestPtr)
+            #else
+            CC_SHA256(dataPtr, CC_LONG(data.count), digestPtr)
+            #endif
         }
     }
-
-    public static func test() {
-        // $ openssl dgst -sha256 -hex
-        // The quick brown fox\n^d
-        // 35fb7cc2337d10d618a1bad35c7a9e957c213f00d0ed32f2454b2a99a971c0d8
-        let data = "The quick brown fox\n" |> toUTF8
-        let sha256 = data |> SHA256.init
-        print(sha256)
-        // prints 35fb7cc2337d10d618a1bad35c7a9e957c213f00d0ed32f2454b2a99a971c0d8
-        let string = sha256.digest |> toHex
-        print(string == "35fb7cc2337d10d618a1bad35c7a9e957c213f00d0ed32f2454b2a99a971c0d8")
-        // prints true
-    }
-}
-
-extension SHA256: CustomStringConvertible {
-    public var description: String {
-        return digest |> toHex
-    }
-}
-
-extension String {
-    public init(sha256: SHA256) {
-        self.init(sha256.description)
-    }
+    return try! digest |> tagSHA256
 }

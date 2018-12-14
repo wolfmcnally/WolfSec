@@ -22,62 +22,37 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import Foundation
-
-#if canImport(COpenSSL)
-import COpenSSL
-#elseif canImport(CommonCrypto)
-import CommonCrypto
-#endif
-
 import WolfPipe
 import WolfFoundation
 
-public struct SHA1 {
-    private typealias `Self` = SHA1
+#if canImport(COpenSSL)
+import COpenSSL
+public let digestLengthSHA1 = Int(SHA_DIGEST_LENGTH)
+#elseif canImport(CommonCrypto)
+import CommonCrypto
+public let digestLengthSHA1 = Int(CC_SHA1_DIGEST_LENGTH)
+#else
+#error("No crypto library available.")
+#endif
 
-    #if os(Linux)
-    private static let digestLength = Int(SHA_DIGEST_LENGTH)
-    #else
-    private static let digestLength = Int(CC_SHA1_DIGEST_LENGTH)
-    #endif
+public enum SHA1Tag { }
+public typealias SHA1 = Tagged<SHA1Tag, Data>
 
-    public private(set) var digest = Data(repeating: 0, count: Self.digestLength)
+public func tagSHA1(_ data: Data) throws -> SHA1 {
+    guard data.count == digestLengthSHA1 else { throw WolfSecError("Invalid length for SHA1 hash") }
+    return SHA1(rawValue: data)
+}
 
-    public init(data: Data) {
-        digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
-            data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
-                #if os(Linux)
-                _ = COpenSSL.SHA1(dataPtr, data.count, digestPtr)
-                #else
-                CC_SHA1(dataPtr, CC_LONG(data.count), digestPtr)
-                #endif
-            }
+public func toSHA1(_ data: Data) -> SHA1 {
+    var digest = Data(repeating: 0, count: digestLengthSHA1)
+    digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
+        data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
+            #if canImport(COpenSSL)
+            _ = COpenSSL.SHA1(dataPtr, data.count, digestPtr)
+            #else
+            CC_SHA1(dataPtr, CC_LONG(data.count), digestPtr)
+            #endif
         }
     }
-
-    public static func test() {
-        // $ openssl dgst -sha1 -hex
-        // The quick brown fox\n^d
-        // 16d17cfbec56708a1174c123853ad609a7e67cd8
-        let data = "The quick brown fox\n" |> toUTF8
-        let sha1 = data |> SHA1.init
-        print(sha1)
-        // prints 16d17cfbec56708a1174c123853ad609a7e67cd8
-        let string = sha1.digest |> toHex
-        print(string == "16d17cfbec56708a1174c123853ad609a7e67cd8")
-        // prints true
-    }
-}
-
-extension SHA1: CustomStringConvertible {
-    public var description: String {
-        return digest |> toHex
-    }
-}
-
-extension String {
-    public init(sha1: SHA1) {
-        self.init(sha1.description)
-    }
+    return try! digest |> tagSHA1
 }

@@ -22,62 +22,37 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import Foundation
-
-#if canImport(COpenSSL)
-  import COpenSSL
-#elseif canImport(CommonCrypto)
-  import CommonCrypto
-#endif
-
 import WolfPipe
 import WolfFoundation
 
-public struct MD5 {
-  private typealias `Self` = MD5
+#if canImport(COpenSSL)
+import COpenSSL
+public let digestLengthMD5 = Int(MD5_DIGEST_LENGTH)
+#elseif canImport(CommonCrypto)
+import CommonCrypto
+public let digestLengthMD5 = Int(CC_MD5_DIGEST_LENGTH)
+#else
+#error("No crypto library available.")
+#endif
 
-  #if os(Linux)
-  private static let digestLength = Int(MD5_DIGEST_LENGTH)
-  #else
-  private static let digestLength = Int(CC_MD5_DIGEST_LENGTH)
-  #endif
+public enum MD5Tag { }
+public typealias MD5 = Tagged<MD5Tag, Data>
 
-    public private(set) var digest = Data(repeating: 0, count: Self.digestLength)
+public func tagMD5(_ data: Data) throws -> MD5 {
+    guard data.count == digestLengthMD5 else { throw WolfSecError("Invalid length for MD5 hash") }
+    return MD5(rawValue: data)
+}
 
-    public init(data: Data) {
-        digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
-            data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
-                #if os(Linux)
-                    _ = COpenSSL.MD5(dataPtr, data.count, digestPtr)
-                #else
-                    CC_MD5(dataPtr, CC_LONG(data.count), digestPtr)
-                #endif
-            }
+public func toMD5(_ data: Data) -> MD5 {
+    var digest = Data(repeating: 0, count: digestLengthMD5)
+    digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
+        data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
+            #if canImport(COpenSSL)
+            _ = COpenSSL.MD5(dataPtr, data.count, digestPtr)
+            #else
+            CC_MD5(dataPtr, CC_LONG(data.count), digestPtr)
+            #endif
         }
     }
-
-    public static func test() {
-        // $ openssl dgst -md5 -hex
-        // The quick brown fox\n^d
-        // e480132c9dd53e3e34e3cf9f523c7425
-        let data = "The quick brown fox\n" |> toUTF8
-        let md5 = data |> MD5.init
-        print(md5)
-        // prints e480132c9dd53e3e34e3cf9f523c7425
-        let string = md5.digest |> toHex
-        print(string == "e480132c9dd53e3e34e3cf9f523c7425")
-        // prints true
-    }
-}
-
-extension MD5: CustomStringConvertible {
-    public var description: String {
-        return digest |> toHex
-    }
-}
-
-extension String {
-    public init(md5: MD5) {
-        self.init(md5.description)
-    }
+    return try! digest |> tagMD5
 }

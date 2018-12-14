@@ -1,32 +1,35 @@
 PODS:
-  - WolfFoundation (1.0.4):
+  - WolfFoundation (1.1):
     - WolfNumerics
     - WolfPipe
   - WolfNumerics (2.0.2)
   - WolfPipe (1.0.7)
-  - WolfSec (1.0.2):
+  - WolfSec (1.0.3):
     - WolfFoundation
     - WolfPipe
 
 DEPENDENCIES:
+  - WolfFoundation (from `../../WolfFoundation/`)
+  - WolfNumerics (from `../../WolfNumerics/`)
+  - WolfPipe (from `../../WolfPipe/`)
   - WolfSec (from `../`)
 
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - WolfFoundation
-    - WolfNumerics
-    - WolfPipe
-
 EXTERNAL SOURCES:
+  WolfFoundation:
+    :path: "../../WolfFoundation/"
+  WolfNumerics:
+    :path: "../../WolfNumerics/"
+  WolfPipe:
+    :path: "../../WolfPipe/"
   WolfSec:
     :path: "../"
 
 SPEC CHECKSUMS:
-  WolfFoundation: 3badcb644013c8ab0329277474c9592ed8701d25
+  WolfFoundation: b329c7dc0def384757c81c79b5600b1a36227252
   WolfNumerics: a63222a42b4c3835e1a1cb489a71abb890f0d910
   WolfPipe: 1a2cbb23efb14833647a2adcc034468bf82a289e
-  WolfSec: 305c28ce6b0a471766cb4bc665598737c2b45c24
+  WolfSec: bb7850c5563195b08ae73b443250cd6ea71e05dd
 
-PODFILE CHECKSUM: 9cb6539a3864157c29728f144b64f0fc385489de
+PODFILE CHECKSUM: 599c6461fe461f17e82b86902e7c5b9368a5ed35
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.6.0.beta.2
