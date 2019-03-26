@@ -45,12 +45,12 @@ public func tagSHA1(_ data: Data) throws -> SHA1 {
 
 public func toSHA1(_ data: Data) -> SHA1 {
     var digest = Data(repeating: 0, count: digestLengthSHA1)
-    digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
-        data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
+    digest.withUnsafeMutableBytes { digestPtr in
+        data.withUnsafeBytes { dataPtr in
             #if canImport(COpenSSL)
             _ = COpenSSL.SHA1(dataPtr, data.count, digestPtr)
             #else
-            CC_SHA1(dataPtr, CC_LONG(data.count), digestPtr)
+            CC_SHA1(dataPtr.bindMemory(to: UInt8.self).baseAddress, CC_LONG(data.count), digestPtr.bindMemory(to: UInt8.self).baseAddress)
             #endif
         }
     }

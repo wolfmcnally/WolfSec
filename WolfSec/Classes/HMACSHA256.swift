@@ -36,13 +36,13 @@ import CommonCrypto
 public func toHMACSHA256(key: Data) -> (_ data: Data) -> SHA256 {
     return { data in
         var digest = Data(repeating: 0, count: digestLengthSHA256)
-        digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
-            data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
-                key.withUnsafeBytes { (keyPtr: UnsafePointer<UInt8>) in
+        digest.withUnsafeMutableBytes { digestPtr in
+            data.withUnsafeBytes { dataPtr in
+                key.withUnsafeBytes { keyPtr in
                     #if canImport(COpenSSL)
                     _ = HMAC(EVP_sha256(), keyPtr, Int32(key.count), dataPtr, data.count, digestPtr, nil)
                     #else
-                    CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), keyPtr, key.count, dataPtr, data.count, digestPtr)
+                    CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), keyPtr.bindMemory(to: UInt8.self).baseAddress, key.count, dataPtr.bindMemory(to: UInt8.self).baseAddress, data.count, digestPtr.bindMemory(to: UInt8.self).baseAddress)
                     #endif
                 }
             }

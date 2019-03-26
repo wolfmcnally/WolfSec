@@ -45,12 +45,12 @@ public func tagMD5(_ data: Data) throws -> MD5 {
 
 public func toMD5(_ data: Data) -> MD5 {
     var digest = Data(repeating: 0, count: digestLengthMD5)
-    digest.withUnsafeMutableBytes { (digestPtr: UnsafeMutablePointer<UInt8>) in
-        data.withUnsafeBytes { (dataPtr: UnsafePointer<UInt8>) in
+    digest.withUnsafeMutableBytes { digestPtr in
+        data.withUnsafeBytes { dataPtr in
             #if canImport(COpenSSL)
             _ = COpenSSL.MD5(dataPtr, data.count, digestPtr)
             #else
-            CC_MD5(dataPtr, CC_LONG(data.count), digestPtr)
+            CC_MD5(dataPtr.bindMemory(to: UInt8.self).baseAddress, CC_LONG(data.count), digestPtr.bindMemory(to: UInt8.self).baseAddress)
             #endif
         }
     }

@@ -271,7 +271,7 @@ public class Hashids_<T> : HashidsGenerator where T: UnsignedInteger {
             let alphabetLength = alphabet.count
             value = hash.reduce(0) { value, token in
                 var tokenValue = 0.0
-                if let token_index = alphabet.index(of: token as Char) {
+                if let token_index = alphabet.firstIndex(of: token as Char) {
                     hashLength -= 1
                     let mul = pow(Double(alphabetLength), Double(hashLength))
                     tokenValue = Double(token_index) * mul
@@ -296,7 +296,7 @@ public class Hashids_<T> : HashidsGenerator where T: UnsignedInteger {
 // MARK: Internal functions
 
 fileprivate func contains<T: Collection>(_ a: T, _ e: T.Iterator.Element) -> Bool where T.Iterator.Element: Equatable {
-    return (a.index(of: e) != nil)
+    return (a.firstIndex(of: e) != nil)
 }
 
 fileprivate func transform<T: Collection>(_ a: T, _ b: T, _ cmpr: (inout [T.Iterator.Element], T, T, T.Iterator.Element ) -> Void ) -> [T.Iterator.Element] where T.Iterator.Element: Equatable {

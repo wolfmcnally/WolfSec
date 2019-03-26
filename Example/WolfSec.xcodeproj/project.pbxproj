@@ -266,8 +266,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WolfSec_Example/Pods-WolfSec_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/WolfFoundation/WolfFoundation.framework",
@@ -276,8 +274,6 @@
 				"${BUILT_PRODUCTS_DIR}/WolfSec/WolfSec.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WolfFoundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WolfNumerics.framework",
