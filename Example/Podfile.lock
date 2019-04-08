@@ -1,18 +1,45 @@
 PODS:
+  - ExtensibleEnumeratedName (2.0)
+  - WolfCore (4.0.5):
+    - ExtensibleEnumeratedName
+    - WolfFoundation
+    - WolfNesting
+    - WolfNumerics
+    - WolfOSBridge
+    - WolfPipe
+    - WolfStrings
+    - WolfWith
   - WolfFoundation (3.0.0):
     - WolfNumerics
     - WolfPipe
+  - WolfNesting (2.0.1)
   - WolfNumerics (4.0)
+  - WolfOSBridge (2.0.0)
   - WolfPipe (2.0.0)
-  - WolfSec (3.0.0):
-    - WolfFoundation
+  - WolfSec (3.0.1):
+    - WolfCore
+  - WolfStrings (2.0.0):
+    - ExtensibleEnumeratedName
+    - WolfNumerics
+    - WolfOSBridge
     - WolfPipe
+    - WolfWith
+  - WolfWith (2.0.1)
 
 DEPENDENCIES:
   - WolfFoundation (from `../../WolfFoundation/`)
   - WolfNumerics (from `../../WolfNumerics/`)
   - WolfPipe (from `../../WolfPipe/`)
   - WolfSec (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - ExtensibleEnumeratedName
+    - WolfCore
+    - WolfNesting
+    - WolfOSBridge
+    - WolfStrings
+    - WolfWith
 
 EXTERNAL SOURCES:
   WolfFoundation:
@@ -25,10 +52,16 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  ExtensibleEnumeratedName: 50f2d256f6d56baecf681f6fbb6362343dcf885b
+  WolfCore: 640ab58e6795eeedc3bad28056bcbc46f384ad54
   WolfFoundation: df7514e9faf208f591f02cb156ddb537e2a14958
+  WolfNesting: 891247e766da604f0e8124d85a158fe123ceb8d8
   WolfNumerics: 6a57756b668073414da8a6911b86781096aded37
+  WolfOSBridge: e9260681790a7c89f725e134c0c1d4172d2d2dc9
   WolfPipe: 18ffb77a188263392893a62630defc2a5b92b4f3
-  WolfSec: ca7fe7e83a15f4f140fc5b3312ce2e96c0bfd8d3
+  WolfSec: f06589dce7f68f82702fed849559007100bdf002
+  WolfStrings: edc63c08fbd1149ccbf5eca5020b13465084513b
+  WolfWith: 2320a88a03a943df9ff1284c9cca10f86cb73c60
 
 PODFILE CHECKSUM: 599c6461fe461f17e82b86902e7c5b9368a5ed35
 

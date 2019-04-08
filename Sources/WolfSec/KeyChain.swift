@@ -23,8 +23,7 @@
 //  SOFTWARE.
 
 import Foundation
-import WolfPipe
-import WolfFoundation
+import WolfCore
 
 public struct KeyChain {
     private typealias `Self` = KeyChain

@@ -1,8 +1,8 @@
 //
-//  SHA256.swift
+//  SHA1.swift
 //  WolfSec
 //
-//  Created by Wolf McNally on 1/20/16.
+//  Created by Wolf McNally on 4/20/17.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -22,37 +22,36 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import WolfPipe
-import WolfFoundation
+import WolfCore
 
 #if canImport(COpenSSL)
 import COpenSSL
-public let digestLengthSHA256 = Int(SHA256_DIGEST_LENGTH)
+public let digestLengthSHA1 = Int(SHA_DIGEST_LENGTH)
 #elseif canImport(CommonCrypto)
 import CommonCrypto
-public let digestLengthSHA256 = Int(CC_SHA256_DIGEST_LENGTH)
+public let digestLengthSHA1 = Int(CC_SHA1_DIGEST_LENGTH)
 #else
 #error("No crypto library available.")
 #endif
 
-public enum SHA256Tag { }
-public typealias SHA256 = Tagged<SHA256Tag, Data>
+public enum SHA1Tag { }
+public typealias SHA1 = Tagged<SHA1Tag, Data>
 
-public func tagSHA256(_ data: Data) throws -> SHA256 {
-    guard data.count == digestLengthSHA256 else { throw WolfSecError("Invalid length for SHA256 hash") }
-    return SHA256(rawValue: data)
+public func tagSHA1(_ data: Data) throws -> SHA1 {
+    guard data.count == digestLengthSHA1 else { throw WolfSecError("Invalid length for SHA1 hash") }
+    return SHA1(rawValue: data)
 }
 
-public func toSHA256(_ data: Data) -> SHA256 {
-    var digest = Data(repeating: 0, count: digestLengthSHA256)
+public func toSHA1(_ data: Data) -> SHA1 {
+    var digest = Data(repeating: 0, count: digestLengthSHA1)
     digest.withUnsafeMutableBytes { digestPtr in
         data.withUnsafeBytes { dataPtr in
             #if canImport(COpenSSL)
-            _ = COpenSSL.SHA256(dataPtr, data.count, digestPtr)
+            _ = COpenSSL.SHA1(dataPtr, data.count, digestPtr)
             #else
-            CC_SHA256(dataPtr.bindMemory(to: UInt8.self).baseAddress, CC_LONG(data.count), digestPtr.bindMemory(to: UInt8.self).baseAddress)
+            CC_SHA1(dataPtr.bindMemory(to: UInt8.self).baseAddress, CC_LONG(data.count), digestPtr.bindMemory(to: UInt8.self).baseAddress)
             #endif
         }
     }
-    return try! digest |> tagSHA256
+    return try! digest |> tagSHA1
 }

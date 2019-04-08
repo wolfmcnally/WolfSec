@@ -1,8 +1,8 @@
 //
-//  SHA1.swift
+//  MD5.swift
 //  WolfSec
 //
-//  Created by Wolf McNally on 4/20/17.
+//  Created by Wolf McNally on 4/19/17.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -22,37 +22,36 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import WolfPipe
-import WolfFoundation
+import WolfCore
 
 #if canImport(COpenSSL)
 import COpenSSL
-public let digestLengthSHA1 = Int(SHA_DIGEST_LENGTH)
+public let digestLengthMD5 = Int(MD5_DIGEST_LENGTH)
 #elseif canImport(CommonCrypto)
 import CommonCrypto
-public let digestLengthSHA1 = Int(CC_SHA1_DIGEST_LENGTH)
+public let digestLengthMD5 = Int(CC_MD5_DIGEST_LENGTH)
 #else
 #error("No crypto library available.")
 #endif
 
-public enum SHA1Tag { }
-public typealias SHA1 = Tagged<SHA1Tag, Data>
+public enum MD5Tag { }
+public typealias MD5 = Tagged<MD5Tag, Data>
 
-public func tagSHA1(_ data: Data) throws -> SHA1 {
-    guard data.count == digestLengthSHA1 else { throw WolfSecError("Invalid length for SHA1 hash") }
-    return SHA1(rawValue: data)
+public func tagMD5(_ data: Data) throws -> MD5 {
+    guard data.count == digestLengthMD5 else { throw WolfSecError("Invalid length for MD5 hash") }
+    return MD5(rawValue: data)
 }
 
-public func toSHA1(_ data: Data) -> SHA1 {
-    var digest = Data(repeating: 0, count: digestLengthSHA1)
+public func toMD5(_ data: Data) -> MD5 {
+    var digest = Data(repeating: 0, count: digestLengthMD5)
     digest.withUnsafeMutableBytes { digestPtr in
         data.withUnsafeBytes { dataPtr in
             #if canImport(COpenSSL)
-            _ = COpenSSL.SHA1(dataPtr, data.count, digestPtr)
+            _ = COpenSSL.MD5(dataPtr, data.count, digestPtr)
             #else
-            CC_SHA1(dataPtr.bindMemory(to: UInt8.self).baseAddress, CC_LONG(data.count), digestPtr.bindMemory(to: UInt8.self).baseAddress)
+            CC_MD5(dataPtr.bindMemory(to: UInt8.self).baseAddress, CC_LONG(data.count), digestPtr.bindMemory(to: UInt8.self).baseAddress)
             #endif
         }
     }
-    return try! digest |> tagSHA1
+    return try! digest |> tagMD5
 }

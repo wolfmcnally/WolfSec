@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WolfSec'
-    s.version          = '3.0.0'
+    s.version          = '3.0.1'
     s.summary          = 'A library of conveniences for security-related functionality.'
 
     # s.description      = <<-DESC
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
     s.swift_version = '5.0'
 
-    s.source_files = 'WolfSec/Classes/**/*'
+    s.source_files = 'Sources/WolfSec/**/*'
 
     s.ios.deployment_target = '9.3'
     s.macos.deployment_target = '10.13'
@@ -22,6 +22,5 @@ Pod::Spec.new do |s|
 
     s.module_name = 'WolfSec'
 
-    s.dependency 'WolfPipe'
-    s.dependency 'WolfFoundation'
+    s.dependency 'WolfCore'
 end
