@@ -84,8 +84,8 @@ public class Hashids_<T> : HashidsGenerator where T: UnsignedInteger {
     private var guards: [Char]
 
     public init(salt: String!, minHashLength: UInt = 0, alphabet: String? = nil) {
-        var _alphabet = (alphabet != nil) ? alphabet! : HashidsOptions.alphabet
-        var _seps = HashidsOptions.separators
+        let _alphabet = (alphabet != nil) ? alphabet! : HashidsOptions.alphabet
+        let _seps = HashidsOptions.separators
 
         self.minHashLength = minHashLength
         self.guards = [Char]()
@@ -230,7 +230,7 @@ public class Hashids_<T> : HashidsGenerator where T: UnsignedInteger {
 
         var alphabet = self.alphabet
 
-        var hashes = hash.split(omittingEmptySubsequences: false) { contains(self.guards, $0) }
+        let hashes = hash.split(omittingEmptySubsequences: false) { contains(self.guards, $0) }
         //        var hashes = hash.split( hash.count, allowEmptySlices: true) { contains(self.guards, $0) }
         let hashesCount = hashes.count, i = ((hashesCount == 2) || (hashesCount == 3)) ? 1 : 0
         let hash = hashes[i]
