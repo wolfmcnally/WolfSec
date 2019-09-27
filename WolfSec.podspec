@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WolfSec'
-    s.version          = '3.0.2'
+    s.version          = '3.0.3'
     s.summary          = 'A library of conveniences for security-related functionality.'
 
     # s.description      = <<-DESC
