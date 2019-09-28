@@ -23,6 +23,7 @@
 //  SOFTWARE.
 
 import WolfCore
+import Foundation
 
 #if canImport(COpenSSL)
 import COpenSSL

@@ -24,6 +24,7 @@
 
 import WolfPipe
 import WolfFoundation
+import Foundation
 
 #if canImport(COpenSSL)
 import COpenSSL
