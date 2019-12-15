@@ -32,8 +32,6 @@
     import Security
 #endif
 
-import WolfCore
-
 //public struct CryptoError: Error {
 //    public let message: String
 //    public let code: Int

@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(
@@ -9,14 +9,19 @@ let package = Package(
     products: [
         .library(
             name: "WolfSec",
+            type: .dynamic,
             targets: ["WolfSec"]),
         ],
     dependencies: [
-        .package(url: "https://github.com/wolfmcnally/WolfCore", from: "5.0.0")
+        .package(url: "https://github.com/wolfmcnally/WolfPipe", from: "2.0.0"),
+        .package(url: "https://github.com/wolfmcnally/WolfFoundation", from: "5.0.0"),
     ],
     targets: [
         .target(
             name: "WolfSec",
-            dependencies: ["WolfCore"])
+            dependencies: [
+                "WolfPipe",
+                "WolfFoundation"
+        ])
         ]
 )

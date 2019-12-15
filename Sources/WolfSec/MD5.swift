@@ -22,8 +22,9 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import WolfCore
 import Foundation
+import WolfFoundation
+import WolfPipe
 
 #if canImport(COpenSSL)
 import COpenSSL
